@@ -1,5 +1,7 @@
 package com.bvision.jboss.ejb;
 
+import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -11,11 +13,11 @@ import javax.inject.Inject;
  * @author matias.blasi@bvision.com
  */
 @Stateless
+@Remote(EJBServiceBRemote.class)
+@Local(EJBServiceBLocal.class)
 public class EJBServiceBImpl implements EJBServiceBRemote, EJBServiceBLocal {
 
 	@Inject
-	//First approach for disambiguating between concrete interface impl, and @Produced service instance
-	@EJBLocalBean
 	private EJBServiceB2 ejbServiceB2;
 
 	@Override

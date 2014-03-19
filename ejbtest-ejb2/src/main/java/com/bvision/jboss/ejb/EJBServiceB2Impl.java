@@ -1,5 +1,7 @@
 package com.bvision.jboss.ejb;
 
+import javax.ejb.Local;
+import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
 /**
@@ -21,6 +23,8 @@ import javax.ejb.Stateless;
  * @author matias.blasi@bvision.com
  */
 @Stateless
+@Remote(EJBServiceB2Remote.class)
+@Local(EJBServiceB2Local.class)
 public class EJBServiceB2Impl implements EJBServiceB2Remote, EJBServiceB2Local {
 
 	@Override

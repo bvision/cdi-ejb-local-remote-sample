@@ -16,10 +16,8 @@
          a @Remote interface, and it is lookedup, and used as @Remote, we 'sometimes' have a remote 
          behaiviour with the CDI @Injected instance.
     -->
-    <!-- 
 	<alternatives>
 		<class>com.bvision.jboss.cdi.ServiceProvider</class>
 	</alternatives>
-    -->
 
 </beans>
