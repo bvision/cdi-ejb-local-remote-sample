@@ -1,0 +1,27 @@
+package com.bvision.jboss.ejb;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+
+/**
+ * This EJB is exposed remotely and locally.
+ * 
+ * It is remotely looked up from ejbtest-web2 ServiceProvider to be available for @Injection in ejbtest-web2 web servlet.
+ * 
+ * @author matias.blasi@bvision.com
+ */
+@Stateless
+public class EJBServiceAImpl implements EJBServiceARemote, EJBServiceALocal {
+
+	@Inject
+	//First approach for disambiguating between concrete interface impl, and @Produced service instance
+	@EJBLocalBean
+	private EJBServiceA2 ejbServiceA2;
+
+	@Override
+	public EJBResponse greeting() {
+		System.out.println("[nested response] from EJBServiceA.@Injected-A2: " + ejbServiceA2.greeting().getGreeting());
+		return new EJBResponse("[main response] from EJB A");
+	}
+
+}

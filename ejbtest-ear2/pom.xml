@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.bvision.jboss</groupId>
+		<artifactId>ejbtest</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>ejbtest-ear2</artifactId>
+	<packaging>ear</packaging>
+
+	<name>ejbtest EAR2 module</name>
+
+	<dependencies>
+		<!-- Depend on the ejb module and war so that we can package them -->
+		<dependency>
+			<groupId>com.bvision.jboss</groupId>
+			<artifactId>ejbtest-web2</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>com.bvision.jboss</groupId>
+			<artifactId>ejbtest-ejb2</artifactId>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>ejbtest2</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<!-- Tell Maven we are using Java EE 6 -->
+					<version>6</version>
+					<!-- Use Java EE ear libraries as needed. Java EE ear libraries are 
+						in easy way to package any libraries needed in the ear, and automatically 
+						have any modules (EJB-JARs and WARs) use them -->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<modules>
+						<!-- Default context root of the web app is /ejbtest-web. If a custom 
+							context root is needed, uncomment the following snippet to register our War 
+							as a web module and set the contextRoot property -->
+						<webModule>
+							<groupId>com.bvision.jboss</groupId>
+							<artifactId>ejbtest-web2</artifactId>
+							<contextRoot>ejbtest2</contextRoot>
+						</webModule>
+						<!-- -->
+					</modules>
+				</configuration>
+			</plugin>
+
+			<!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
+			<!-- Due to Maven's lack of intelligence with EARs we need to configure 
+				the jboss-as maven plugin to skip deployment for all modules. We then enable 
+				it specifically in the ear module. -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<configuration>
+                                        <username>${jboss.username}</username>
+                                        <password>${jboss.password}</password>
+					<name>ejbtest</name>
+					<filename>ejbtest.ear</filename>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

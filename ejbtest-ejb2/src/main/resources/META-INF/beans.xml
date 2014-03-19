@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+
+    <!--
+         Second apporach for dissambiguating between:
+          - concrete impl of the interface
+          - and the @Produced service instance in ServiceProvider
+         (First approach is to use a @Mark in the @Producer method, and the same @Mark in the @Injected field.)
+
+         This ambigous situation is because we whant to @Inject the looked up @Local @EJB instance, 
+         instead of relaying just in @Inject.
+
+         Important note: If we just use @Inject, without @Producing an instance with the lookedup @Local @EJB,
+         CDI @Injects the service impl instance, but if this service is also exposed with 
+         a @Remote interface, and it is lookedup, and used as @Remote, we 'sometimes' have a remote 
+         behaiviour with the CDI @Injected instance.
+    -->
+    <!-- 
+	<alternatives>
+		<class>com.bvision.jboss.cdi.ServiceProvider</class>
+	</alternatives>
+     -->
+
+</beans>
